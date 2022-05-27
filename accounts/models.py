@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.auth import get_user_model
-
-# Create your models here.
 from django.utils import timezone
 
 
@@ -44,6 +42,7 @@ class AccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
+    username = models.CharField(unique=True, verbose_name='Логин')
     name = models.CharField(max_length=150)
     date_of_birth = models.DateField(blank=True, null=True)
     is_staff = models.BooleanField(default=False)
@@ -54,10 +53,13 @@ class Account(AbstractBaseUser, PermissionsMixin):
     objects = AccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name']
+    REQUIRED_FIELDS = ['name', 'username']
 
     def get_full_name(self):
         return self.name
 
     def get_short_name(self):
         return self.name.split()[0]
+
+    def get_username(self):
+        return self.username
