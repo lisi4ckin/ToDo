@@ -42,7 +42,7 @@ class AccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    username = models.CharField(unique=True, verbose_name='Логин')
+    username = models.CharField(unique=True, verbose_name='Логин', max_length=50, null=False)
     name = models.CharField(max_length=150)
     date_of_birth = models.DateField(blank=True, null=True)
     is_staff = models.BooleanField(default=False)
